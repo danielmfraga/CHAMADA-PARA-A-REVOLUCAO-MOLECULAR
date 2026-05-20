@@ -895,9 +895,9 @@
 
     .faq-grid {
       display: grid; grid-template-columns: 1fr 2fr;
-      gap: 80px; align-items: start;
+      gap: 80px; align-items: center;
     }
-    .faq-sticky { position: sticky; top: 120px; }
+    .faq-sticky { position: static; }
     .faq-sub {
       font-size: 0.95rem; line-height: 1.8;
       color: #4A4540; margin-top: 20px; max-width: 280px;
@@ -921,12 +921,11 @@
 
     .faq-icon {
       font-size: 1.3rem; line-height: 1;
-      color: #9A9288; flex-shrink: 0;
-      transition: transform 0.4s cubic-bezier(0.34,1.4,0.64,1), color 0.2s;
+      color: var(--red); flex-shrink: 0;
+      transition: transform 0.4s cubic-bezier(0.34,1.4,0.64,1);
     }
     .faq-item.open .faq-icon {
       transform: rotate(45deg);
-      color: var(--red);
     }
 
     .faq-a {
