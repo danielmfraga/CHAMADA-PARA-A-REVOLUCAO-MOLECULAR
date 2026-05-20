@@ -77,19 +77,19 @@
       z-index: 8000;
     }
 
-    /* ─── SCAN LINES — traço horizontal de xilogravura ─── */
-    body::before {
+    /* ─── SCAN LINES — só na capa ─── */
+    #hero::before {
       content: '';
-      position: fixed; inset: 0;
+      position: absolute; inset: 0;
       background-image: repeating-linear-gradient(
         0deg,
         transparent,
         transparent 4px,
-        rgba(0,0,0,0.035) 4px,
-        rgba(0,0,0,0.035) 5px
+        rgba(0,0,0,0.045) 4px,
+        rgba(0,0,0,0.045) 5px
       );
       pointer-events: none;
-      z-index: 7999;
+      z-index: 1;
     }
 
     /* ─── TYPOGRAPHY ─── */
