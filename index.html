@@ -15,14 +15,14 @@
     /* ─── TOKENS ─── */
     :root {
       --red:        #EE0000;
-      --red-bright: #FF3333;
-      --red-glow:   rgba(238,0,0,0.18);
-      --black:      #080808;
-      --dark:       #111111;
-      --card:       #161616;
-      --white:      #F0EDE8;
-      --gray:       #7A7268;
-      --muted:      #B8B0A4;
+      --red-bright: #CC0000;
+      --red-glow:   rgba(238,0,0,0.12);
+      --black:      #EDE9E1;
+      --dark:       #E4E0D7;
+      --card:       #1A1612;
+      --white:      #1A1612;
+      --gray:       #5A5550;
+      --muted:      #3A3530;
     }
 
     html { scroll-behavior: smooth; }
@@ -68,10 +68,10 @@
     /* ─── GRAIN OVERLAY ─── */
     body::after {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.025;
+      opacity: 0.06;
+      mix-blend-mode: multiply;
       pointer-events: none;
       z-index: 8000;
     }
@@ -89,9 +89,9 @@
       border-bottom: 1px solid transparent;
     }
     nav.scrolled {
-      background: rgba(8,8,8,0.85);
+      background: rgba(237,233,225,0.88);
       backdrop-filter: blur(16px);
-      border-color: rgba(204,0,0,0.15);
+      border-color: rgba(238,0,0,0.2);
     }
     .nav-logo {
       font-family: 'Bebas Neue', cursive;
@@ -118,8 +118,8 @@
     .hero-grid {
       position: absolute; inset: 0;
       background-image:
-        linear-gradient(rgba(204,0,0,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(204,0,0,0.04) 1px, transparent 1px);
+        linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
       background-size: 70px 70px;
     }
 
@@ -135,13 +135,13 @@
     }
     .glow-1 {
       width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(204,0,0,0.2) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(238,0,0,0.1) 0%, transparent 65%);
       top: -200px; right: -150px;
       animation: breathe 6s ease-in-out infinite;
     }
     .glow-2 {
       width: 500px; height: 900px;
-      background: radial-gradient(ellipse, rgba(204,0,0,0.1) 0%, transparent 65%);
+      background: radial-gradient(ellipse, rgba(238,0,0,0.07) 0%, transparent 65%);
       bottom: -300px; left: -100px;
       animation: breathe 8s ease-in-out infinite reverse;
     }
@@ -319,7 +319,7 @@
       transform: translate(-50%, -50%);
       font-family: 'Bebas Neue', cursive;
       font-size: clamp(10rem, 22vw, 22rem);
-      color: rgba(204,0,0,0.04);
+      color: rgba(0,0,0,0.04);
       white-space: nowrap; pointer-events: none; user-select: none;
     }
     .monica-grid {
