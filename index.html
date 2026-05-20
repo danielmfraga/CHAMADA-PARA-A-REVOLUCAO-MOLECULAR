@@ -15,14 +15,14 @@
     /* ─── TOKENS ─── */
     :root {
       --red:        #EE0000;
-      --red-bright: #CC0000;
+      --red-bright: #FF3333;
       --red-glow:   rgba(238,0,0,0.12);
-      --black:      #EDE9E1;
-      --dark:       #E4E0D7;
-      --card:       #1A1612;
-      --white:      #1A1612;
-      --gray:       #5A5550;
-      --muted:      #3A3530;
+      --black:      #F6F4F0;
+      --dark:       #EFECEA;
+      --card:       #161210;
+      --white:      #F0EDE8;
+      --gray:       #7A7268;
+      --muted:      #B8B0A4;
     }
 
     html { scroll-behavior: smooth; }
@@ -70,7 +70,7 @@
       content: '';
       position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.06;
+      opacity: 0.04;
       mix-blend-mode: multiply;
       pointer-events: none;
       z-index: 8000;
@@ -582,6 +582,67 @@
     }
     .modal-speaker { font-size: 0.82rem; color: var(--gray); margin-bottom: 24px; }
     .modal-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.85; }
+
+    /* ─── HYBRID: HERO ESCURO / SEÇÕES CLARAS ─── */
+
+    /* Texto padrão do body → escuro para seções claras */
+    body { color: #1A1612; }
+
+    /* Hero mantém fundo preto e texto claro */
+    #hero {
+      background: #080808 !important;
+    }
+    #hero .hero-eyebrow,
+    #hero .hero-title,
+    #hero .date-num,
+    #hero .date-label,
+    #hero .date-month,
+    #hero .btn-ghost {
+      color: var(--white);
+    }
+    #hero .hero-sub { color: #8A8278; }
+    #hero .date-block { border-color: rgba(240,237,232,0.15); }
+    #hero .btn-ghost { border-color: rgba(240,237,232,0.3); }
+
+    /* Seções claras — headings e textos em escuro */
+    .section-h,
+    .sobre-h,
+    .cert-h,
+    .monica-name      { color: #1A1612; }
+
+    .sobre-text p,
+    .ingressos-lead,
+    .cert-p           { color: #4A4540; }
+
+    .pilar-name       { color: #1A1612; }
+    .pilar-desc       { color: #5A5550; }
+
+    .monica-bio       { color: #4A4540; }
+    .pill             { color: #4A4540; border-color: rgba(26,22,18,0.2); }
+
+    /* Cards de mesa e ingresso são escuros — texto claro interno */
+    .mesa-title                     { color: var(--white); }
+    .mesa-desc, .mesa-speaker       { color: #9A9288; }
+    .i-tipo                         { color: var(--white); }
+    .i-desc                         { color: #8A8278; }
+    .i-list li                      { color: #C8C0B4; }
+    .i-btn.out                      { color: var(--white); border-color: rgba(240,237,232,0.2); }
+
+    /* Nav e footer em claro */
+    nav.scrolled {
+      background: rgba(246,244,240,0.92) !important;
+      border-color: rgba(238,0,0,0.15);
+    }
+    .nav-logo { color: var(--red); }
+    footer { background: var(--dark); border-color: rgba(238,0,0,0.12); }
+    .footer-copy { color: #5A5550; }
+
+    /* Modal em escuro */
+    .modal-box { background: #161210; }
+    .modal-close { color: #7A7268; }
+    .modal-tag, .modal-desc { color: #B8B0A4; }
+    .modal-title { color: var(--white); }
+    .modal-speaker { color: #7A7268; }
 
     /* ─── INK TEXTURE ON BLOCKS ─── */
     /* Noise SVG inline — medium grain, desaturated, printed-ink feel */
