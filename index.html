@@ -727,6 +727,107 @@
     .monica-frame        { border-radius: 12px; }
     .monica-corner       { border-radius: 0 0 12px 0; }
 
+    /* ─── MICRO-INTERAÇÕES ─── */
+
+    /* Barra de progresso de scroll */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: var(--red);
+      z-index: 9997;
+      transition: width 0.1s linear;
+    }
+
+    /* Cards das mesas — lift com spring */
+    .mesa {
+      transition: border-color 0.3s, transform 0.45s cubic-bezier(0.34,1.4,0.64,1), box-shadow 0.4s;
+    }
+    .mesa:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.28), 0 0 0 1px rgba(238,0,0,0.18);
+    }
+
+    /* Ingressos */
+    .ingresso {
+      transition: border-color 0.3s, transform 0.45s cubic-bezier(0.34,1.4,0.64,1), box-shadow 0.4s;
+    }
+    .ingresso:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+    }
+
+    /* Pilares — deslizam pra direita */
+    .pilar {
+      transition: background 0.25s, border-color 0.25s, transform 0.3s cubic-bezier(0.34,1.4,0.64,1);
+      cursor: default;
+    }
+    .pilar:hover {
+      transform: translateX(6px);
+      background: rgba(238,0,0,0.06);
+      border-color: var(--red);
+    }
+
+    /* Botões — press feedback */
+    .btn-red, .btn-ghost, .nav-cta, .i-btn, .filter-btn {
+      transition: all 0.2s ease;
+    }
+    .btn-red:active, .btn-ghost:active,
+    .nav-cta:active, .i-btn:active { transform: scale(0.96); }
+
+    /* Nav CTA — pulso sutil chamando atenção */
+    @keyframes cta-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(238,0,0,0.5); }
+      60%       { box-shadow: 0 0 0 10px rgba(238,0,0,0); }
+    }
+    .nav-cta { animation: cta-pulse 3.5s ease-in-out infinite 3s; }
+
+    /* Saiba mais — seta desliza */
+    .saiba-mais {
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .saiba-mais::after {
+      content: '→';
+      display: inline-block;
+      transition: transform 0.25s cubic-bezier(0.34,1.4,0.64,1);
+    }
+    .saiba-mais:hover::after { transform: translateX(6px); }
+
+    /* Monica foto — zoom suave */
+    .monica-frame { overflow: hidden; }
+    .monica-frame img {
+      transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .monica-frame:hover img { transform: scale(1.05); }
+
+    /* Date blocks — acende ao hover */
+    .date-block {
+      transition: background 0.3s, border-color 0.3s;
+      cursor: default;
+    }
+    .date-block:hover {
+      background: rgba(238,0,0,0.07);
+      border-color: rgba(238,0,0,0.35);
+    }
+
+    /* Filter buttons — indicador sublinhado */
+    .filter-btn { position: relative; overflow: hidden; }
+    .filter-btn::after {
+      content: '';
+      position: absolute; bottom: 0; left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 60%; height: 2px;
+      background: var(--red);
+      transition: transform 0.25s ease;
+    }
+    .filter-btn.on::after,
+    .filter-btn:hover::after { transform: translateX(-50%) scaleX(1); }
+
+    /* Cursor expandido sobre elementos interativos */
+    .cursor-expand ~ #cursor-ring {
+      width: 56px; height: 56px;
+      border-color: rgba(238,0,0,0.5);
+    }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       nav { padding: 20px 24px; }
@@ -748,6 +849,9 @@
   </style>
 </head>
 <body>
+
+  <!-- SCROLL PROGRESS -->
+  <div id="scroll-progress"></div>
 
   <!-- CURSOR -->
   <div id="cursor"></div>
@@ -1249,6 +1353,37 @@
     }
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal({}); });
+
+    /* ── Scroll progress bar ── */
+    const bar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const pct = scrollY / (document.body.scrollHeight - innerHeight) * 100;
+      bar.style.width = pct + '%';
+    }, { passive: true });
+
+    /* ── Cursor expande em interativos ── */
+    const interactives = 'a, button, .mesa, .ingresso, .pilar, .date-block, .saiba-mais';
+    document.querySelectorAll(interactives).forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cur.style.width  = '14px';
+        cur.style.height = '14px';
+        ring.style.width  = '52px';
+        ring.style.height = '52px';
+        ring.style.borderColor = 'rgba(238,0,0,0.55)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cur.style.width  = '10px';
+        cur.style.height = '10px';
+        ring.style.width  = '36px';
+        ring.style.height = '36px';
+        ring.style.borderColor = 'rgba(204,0,0,0.6)';
+      });
+    });
+
+    /* ── "Saiba Mais →" — remove texto de seta literal pra não duplicar com ::after ── */
+    document.querySelectorAll('.saiba-mais').forEach(el => {
+      el.textContent = el.textContent.replace(/\s?→/g, '');
+    });
 
     /* ── Marquee duplicate ── */
     const mq = document.getElementById('mq');
