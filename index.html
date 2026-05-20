@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chamada Para a Revolução Molecular</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* ─── RESET ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ─── TOKENS ─── */
+    :root {
+      --red:        #CC0000;
+      --red-bright: #FF2020;
+      --red-glow:   rgba(204,0,0,0.18);
+      --black:      #080808;
+      --dark:       #111111;
+      --card:       #161616;
+      --white:      #FFFFFF;
+      --gray:       #777777;
+      --muted:      #BBBBBB;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CUSTOM CURSOR ─── */
+    #cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--red);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+      mix-blend-mode: difference;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(204,0,0,0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.25s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+    }
+    body:hover #cursor-ring { opacity: 1; }
+    a:hover ~ #cursor, button:hover ~ #cursor { width: 18px; height: 18px; }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--red); }
+
+    /* ─── GRAIN OVERLAY ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 8000;
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    .display { font-family: 'Bebas Neue', cursive; letter-spacing: 0.02em; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 500;
+      padding: 24px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,0.85);
+      backdrop-filter: blur(16px);
+      border-color: rgba(204,0,0,0.15);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1rem; letter-spacing: 0.12em; color: var(--red);
+    }
+    .nav-cta {
+      background: var(--red); color: var(--white);
+      padding: 10px 28px; border: 2px solid var(--red);
+      font-weight: 700; font-size: 0.78rem; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: transparent; color: var(--red); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 140px 60px 100px;
+    }
+
+    /* Grid lines */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(204,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(204,0,0,0.04) 1px, transparent 1px);
+      background-size: 70px 70px;
+    }
+
+    /* Abstract body-inspired SVG curves */
+    .hero-curves {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+
+    /* Glow blobs */
+    .glow {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); pointer-events: none;
+    }
+    .glow-1 {
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(204,0,0,0.2) 0%, transparent 65%);
+      top: -200px; right: -150px;
+      animation: breathe 6s ease-in-out infinite;
+    }
+    .glow-2 {
+      width: 500px; height: 900px;
+      background: radial-gradient(ellipse, rgba(204,0,0,0.1) 0%, transparent 65%);
+      bottom: -300px; left: -100px;
+      animation: breathe 8s ease-in-out infinite reverse;
+    }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+      50%       { transform: scale(1.15) rotate(3deg); opacity: 0.6; }
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; max-width: 980px; width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      border: 1px solid var(--red); color: var(--red);
+      font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase;
+      padding: 7px 20px; margin-bottom: 36px;
+      opacity: 0; transform: translateY(16px);
+      animation: up 0.8s ease forwards 0.2s;
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(4.5rem, 11vw, 11rem);
+      line-height: 0.92; letter-spacing: -0.01em;
+      margin-bottom: 36px;
+      opacity: 0; transform: translateY(28px);
+      animation: up 1s ease forwards 0.4s;
+    }
+    .hero-title em {
+      display: block; color: var(--red); font-style: normal;
+    }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted); line-height: 1.8;
+      max-width: 540px; margin: 0 auto 52px;
+      opacity: 0; transform: translateY(18px);
+      animation: up 0.9s ease forwards 0.65s;
+    }
+    .hero-dates {
+      display: flex; gap: 0; justify-content: center;
+      margin-bottom: 60px;
+      opacity: 0; transform: translateY(18px);
+      animation: up 0.9s ease forwards 0.8s;
+    }
+    .date-block {
+      padding: 20px 48px; text-align: center;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .date-block:first-child { border-right: none; }
+    .date-label {
+      font-size: 0.65rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 4px;
+    }
+    .date-num {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 3.2rem; letter-spacing: 0.06em;
+    }
+    .date-month {
+      font-size: 0.75rem; color: var(--gray); letter-spacing: 0.1em;
+    }
+    .hero-btns {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+      opacity: 0; transform: translateY(18px);
+      animation: up 0.9s ease forwards 1s;
+    }
+
+    .btn-red {
+      background: var(--red); color: var(--white);
+      padding: 18px 52px; border: 2px solid var(--red);
+      font-weight: 700; font-size: 0.85rem; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      display: inline-block; transition: background 0.2s, color 0.2s;
+    }
+    .btn-red:hover { background: transparent; color: var(--red); }
+
+    .btn-ghost {
+      background: transparent; color: var(--white);
+      padding: 18px 52px; border: 2px solid rgba(255,255,255,0.22);
+      font-weight: 700; font-size: 0.85rem; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      display: inline-block; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--white); }
+
+    /* Scroll cue */
+    .scroll-cue {
+      position: absolute; bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      opacity: 0; animation: up 1s ease forwards 1.4s;
+    }
+    .scroll-cue span {
+      font-size: 0.6rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--gray);
+    }
+    .scroll-line {
+      width: 1px; height: 56px;
+      background: linear-gradient(to bottom, var(--red), transparent);
+      animation: drip 2.2s ease-in-out infinite;
+    }
+    @keyframes drip {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+      48%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      50%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+
+    @keyframes up {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── MARQUEE ─── */
+    .marquee-wrap {
+      background: var(--red); overflow: hidden;
+      white-space: nowrap; padding: 0;
+    }
+    .marquee-track {
+      display: inline-flex;
+      animation: scroll 24s linear infinite;
+      padding: 18px 0;
+    }
+    .marquee-item {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.5rem; letter-spacing: 0.18em;
+      padding: 0 44px; color: var(--white);
+    }
+    .marquee-sep { color: rgba(255,255,255,0.4); }
+    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── SECTION COMMONS ─── */
+    .section { padding: 130px 60px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .tag {
+      font-size: 0.68rem; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--red);
+      margin-bottom: 14px; display: block;
+    }
+    .section-h {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(3rem, 6vw, 6.5rem);
+      line-height: 0.95; margin-bottom: 20px;
+    }
+
+    /* ─── SOBRE ─── */
+    .sobre-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .sobre-rule {
+      width: 56px; height: 3px; background: var(--red); margin-bottom: 28px;
+    }
+    .sobre-h { font-size: clamp(3.5rem, 7vw, 8rem); }
+
+    .sobre-text p {
+      font-size: 1.05rem; line-height: 1.9; color: var(--muted); margin-bottom: 22px;
+    }
+    .pilares {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px;
+    }
+    .pilar {
+      border-left: 2px solid var(--red); padding: 14px 18px; background: var(--card);
+    }
+    .pilar-name {
+      font-weight: 700; font-size: 0.82rem;
+      letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .pilar-desc { font-size: 0.78rem; color: var(--gray); }
+
+    /* ─── MONICA ─── */
+    #monica {
+      background: var(--dark);
+      position: relative; overflow: hidden;
+    }
+    .monica-watermark {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(10rem, 22vw, 22rem);
+      color: rgba(204,0,0,0.04);
+      white-space: nowrap; pointer-events: none; user-select: none;
+    }
+    .monica-grid {
+      position: relative; z-index: 2;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .monica-frame {
+      aspect-ratio: 3/4;
+      background: var(--card);
+      position: relative; overflow: hidden;
+    }
+    .monica-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(145deg, #1a1a1a 0%, #111 100%);
+      font-size: 0.8rem; letter-spacing: 0.12em; color: var(--gray);
+    }
+    .monica-frame::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(204,0,0,0.25) 0%, transparent 55%);
+    }
+    .monica-badge {
+      position: absolute; top: 24px; left: -2px;
+      background: var(--red); color: var(--white);
+      padding: 7px 18px; font-size: 0.68rem;
+      letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700;
+    }
+    .monica-corner {
+      position: absolute; bottom: -18px; right: -18px;
+      width: 110px; height: 110px; border: 3px solid var(--red);
+      pointer-events: none;
+    }
+    .monica-name {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(3.5rem, 7vw, 7rem); line-height: 0.95;
+      margin-bottom: 8px;
+    }
+    .monica-role {
+      font-size: 0.82rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 36px;
+    }
+    .monica-bio {
+      font-size: 1rem; line-height: 1.9; color: var(--muted); margin-bottom: 40px;
+    }
+    .pill-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill {
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 6px 16px; font-size: 0.75rem;
+      letter-spacing: 0.05em; color: var(--muted);
+    }
+    .pill.accent { border-color: var(--red); color: var(--red); }
+
+    /* ─── PROGRAMAÇÃO ─── */
+    .prog-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 56px;
+    }
+    .filter-row { display: flex; gap: 8px; }
+    .filter-btn {
+      padding: 10px 26px; border: 1px solid rgba(255,255,255,0.18);
+      background: transparent; color: var(--gray);
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+      letter-spacing: 0.06em; cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn.on, .filter-btn:hover {
+      border-color: var(--red); color: var(--white);
+      background: rgba(204,0,0,0.1);
+    }
+    .mesas {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .mesa {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.05);
+      overflow: hidden; transition: border-color 0.3s, transform 0.3s;
+    }
+    .mesa:hover { border-color: rgba(204,0,0,0.35); transform: translateY(-5px); }
+    .mesa-img {
+      width: 100%; aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #1a1a1a 0%, #1e1e1e 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .mesa-img span {
+      font-size: 0.72rem; letter-spacing: 0.1em; color: var(--gray);
+    }
+    .mesa-img::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
+      background: linear-gradient(to top, var(--card), transparent);
+    }
+    .dia-badge {
+      position: absolute; top: 14px; right: 14px;
+      background: var(--red); color: var(--white);
+      font-size: 0.62rem; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 4px 10px; font-weight: 700;
+    }
+    .mesa-body { padding: 22px 24px 28px; }
+    .mesa-time {
+      font-size: 0.68rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 6px;
+    }
+    .mesa-speaker { font-size: 0.78rem; color: var(--gray); margin-bottom: 6px; }
+    .mesa-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.45rem; line-height: 1.08; margin-bottom: 12px;
+    }
+    .mesa-desc {
+      font-size: 0.82rem; color: var(--gray); line-height: 1.65; margin-bottom: 22px;
+    }
+    .saiba-mais {
+      font-size: 0.72rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--red);
+      text-decoration: none; border-bottom: 1px solid var(--red);
+      padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; cursor: pointer;
+    }
+    .saiba-mais:hover { color: var(--red-bright); border-color: var(--red-bright); }
+
+    /* ─── INGRESSOS ─── */
+    #ingressos { background: var(--dark); }
+    .ingressos-head {
+      text-align: center; margin-bottom: 80px;
+    }
+    .ingressos-head .section-h { font-size: clamp(3rem, 7vw, 8rem); }
+    .ingressos-lead {
+      font-size: 1rem; color: var(--muted); line-height: 1.8;
+      max-width: 500px; margin: 0 auto;
+    }
+    .ingresso-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px; max-width: 1020px; margin: 0 auto;
+    }
+    .ingresso {
+      border: 1px solid rgba(255,255,255,0.09);
+      padding: 44px 34px; position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .ingresso:hover { border-color: rgba(204,0,0,0.5); transform: translateY(-6px); }
+    .ingresso.star { border-color: var(--red); background: rgba(204,0,0,0.04); }
+    .ingresso.star::before {
+      content: 'Mais Popular';
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--red); color: var(--white);
+      font-size: 0.62rem; letter-spacing: 0.18em;
+      padding: 4px 14px; font-weight: 700; text-transform: uppercase;
+    }
+    .i-tipo {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.9rem; margin-bottom: 10px;
+    }
+    .i-price {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 4.5rem; line-height: 1; color: var(--red); margin-bottom: 6px;
+    }
+    .i-price sup { font-size: 2rem; vertical-align: super; }
+    .i-desc {
+      font-size: 0.8rem; color: var(--gray); line-height: 1.6;
+      padding-bottom: 28px; margin-bottom: 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .i-list { list-style: none; margin-bottom: 40px; }
+    .i-list li {
+      padding: 9px 0; font-size: 0.88rem; color: var(--muted);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .i-list li::before {
+      content: '';
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--red); flex-shrink: 0;
+    }
+    .i-btn {
+      width: 100%; padding: 16px; border: 2px solid var(--red);
+      background: var(--red); color: var(--white);
+      font-family: 'DM Sans', sans-serif; font-weight: 700;
+      font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s, color 0.2s;
+    }
+    .i-btn:hover { background: transparent; color: var(--red); }
+    .i-btn.out {
+      background: transparent; color: var(--white);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .i-btn.out:hover { border-color: var(--red); color: var(--red); }
+
+    /* ─── CERT ─── */
+    #cert {
+      text-align: center; position: relative; overflow: hidden;
+      padding: 120px 60px;
+    }
+    .cert-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(204,0,0,0.12) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .cert-inner { position: relative; z-index: 2; }
+    .cert-mark {
+      font-size: 2.8rem; margin-bottom: 28px; display: block; color: var(--red);
+      font-family: 'Bebas Neue', cursive; letter-spacing: 0.1em;
+    }
+    .cert-h {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(2.8rem, 6vw, 6rem); margin-bottom: 18px;
+    }
+    .cert-p {
+      font-size: 1rem; color: var(--muted); line-height: 1.85;
+      max-width: 460px; margin: 0 auto 44px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(204,0,0,0.15);
+      padding: 50px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.3rem; letter-spacing: 0.12em; color: var(--red);
+    }
+    .footer-copy { font-size: 0.78rem; color: var(--gray); }
+
+    /* ─── REVEAL ─── */
+    .r {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+    .r.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; }
+    .d4 { transition-delay: 0.4s; }
+
+    /* ─── MODAL ─── */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(6px); z-index: 600;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+    .modal-box {
+      background: var(--card); border: 1px solid rgba(204,0,0,0.3);
+      max-width: 580px; width: 90%; padding: 52px 48px;
+      transform: translateY(20px); transition: transform 0.3s;
+      position: relative;
+    }
+    .modal-backdrop.open .modal-box { transform: none; }
+    .modal-close {
+      position: absolute; top: 20px; right: 24px;
+      background: none; border: none; color: var(--gray);
+      font-size: 1.4rem; cursor: pointer; line-height: 1;
+    }
+    .modal-close:hover { color: var(--red); }
+    .modal-tag { font-size: 0.65rem; letter-spacing: 0.25em; color: var(--red); margin-bottom: 10px; }
+    .modal-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2.2rem; margin-bottom: 8px; line-height: 1.1;
+    }
+    .modal-speaker { font-size: 0.82rem; color: var(--gray); margin-bottom: 24px; }
+    .modal-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.85; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .section { padding: 90px 24px; }
+      #hero { padding: 120px 24px 90px; }
+      .sobre-grid { grid-template-columns: 1fr; gap: 44px; }
+      .monica-grid { grid-template-columns: 1fr; }
+      .monica-frame { max-width: 360px; }
+      .ingresso-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
+      .prog-head { flex-direction: column; align-items: flex-start; gap: 24px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+      .hero-dates { gap: 0; }
+    }
+    @media (max-width: 600px) {
+      .pilares { grid-template-columns: 1fr; }
+      .mesas { grid-template-columns: 1fr; }
+      .modal-box { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-logo">Revolução Molecular</div>
+    <a href="#ingressos" class="nav-cta">Garantir Ingresso</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <!-- SVG body-inspired decorative curves -->
+    <svg class="hero-curves" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1440,0 Q1100,450 1440,900" stroke="rgba(204,0,0,0.08)" stroke-width="1.5" fill="none"/>
+      <path d="M1440,100 Q1050,450 1440,800" stroke="rgba(204,0,0,0.05)" stroke-width="1" fill="none"/>
+      <path d="M0,900 Q340,450 0,0" stroke="rgba(204,0,0,0.08)" stroke-width="1.5" fill="none"/>
+      <ellipse cx="1320" cy="180" rx="180" ry="280" stroke="rgba(204,0,0,0.06)" stroke-width="1" fill="none" transform="rotate(-20, 1320, 180)"/>
+      <ellipse cx="120" cy="720" rx="140" ry="220" stroke="rgba(204,0,0,0.06)" stroke-width="1" fill="none" transform="rotate(15, 120, 720)"/>
+      <path d="M700,0 Q620,120 680,200 Q740,280 660,400" stroke="rgba(204,0,0,0.05)" stroke-width="1" fill="none"/>
+      <circle cx="1380" cy="60" r="3" fill="rgba(204,0,0,0.4)"/>
+      <circle cx="60" cy="840" r="3" fill="rgba(204,0,0,0.4)"/>
+      <circle cx="720" cy="30" r="2" fill="rgba(204,0,0,0.3)"/>
+    </svg>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">Simpósio Nacional &nbsp;·&nbsp; Dois Dias &nbsp;·&nbsp; Online</div>
+
+      <h1 class="hero-title">
+        Chamada Para a
+        <em>Revolução</em>
+        Molecular
+      </h1>
+
+      <p class="hero-sub">
+        Intelectuais, ativistas e estrategistas unidos para empreender a luta política no campo digital e fortalecer a soberania nacional.
+      </p>
+
+      <div class="hero-dates">
+        <div class="date-block">
+          <div class="date-label">Dia 1</div>
+          <div class="date-num display">14 JUN</div>
+          <div class="date-month">Sábado</div>
+        </div>
+        <div class="date-block">
+          <div class="date-label">Dia 2</div>
+          <div class="date-num display">15 JUN</div>
+          <div class="date-month">Domingo</div>
+        </div>
+      </div>
+
+      <div class="hero-btns">
+        <a href="#ingressos" class="btn-red">Garantir Meu Ingresso</a>
+        <a href="#programacao" class="btn-ghost">Ver Programação</a>
+      </div>
+    </div>
+
+    <div class="scroll-cue">
+      <span>Role</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="mq">
+      <span class="marquee-item">Soberania Nacional</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Democracia</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Militância Digital</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Luta Política</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Ecossistema Digital</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Soberania Nacional</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Democracia</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Militância Digital</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Luta Política</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Ecossistema Digital</span>
+      <span class="marquee-item marquee-sep">✦</span>
+    </div>
+  </div>
+
+  <!-- SOBRE -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="sobre-grid">
+        <div class="r">
+          <div class="sobre-rule"></div>
+          <span class="tag">O Evento</span>
+          <h2 class="section-h sobre-h display">Um serviço de utilidade pública</h2>
+        </div>
+        <div class="sobre-text">
+          <p class="r d1">
+            A <strong>Chamada Para a Revolução Molecular</strong> é um simpósio de dois dias com intelectuais, ativistas e estrategistas comprometidos com a soberania nacional e a democracia. Cada mesa foi concebida para ser densa, objetiva e transformadora.
+          </p>
+          <p class="r d2">
+            Ao comprar seu ingresso, você não está apenas assistindo a um evento. Você está participando ativamente da luta pela construção de um ecossistema digital soberano, democrático e progressista.
+          </p>
+          <div class="pilares">
+            <div class="pilar r d1">
+              <div class="pilar-name">Soberania Nacional</div>
+              <div class="pilar-desc">O Brasil no controle do seu próprio futuro digital</div>
+            </div>
+            <div class="pilar r d2">
+              <div class="pilar-name">Democracia</div>
+              <div class="pilar-desc">Defesa das instituições e do Estado de Direito</div>
+            </div>
+            <div class="pilar r d3">
+              <div class="pilar-name">Militância Digital</div>
+              <div class="pilar-desc">Estratégias e táticas de luta no campo digital</div>
+            </div>
+            <div class="pilar r d4">
+              <div class="pilar-name">Certificação</div>
+              <div class="pilar-desc">Certificado de participação para todos os inscritos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MONICA SILVA -->
+  <section class="section" id="monica" style="padding: 130px 60px;">
+    <div class="section-inner">
+      <div class="monica-watermark">MONICA</div>
+      <div class="monica-grid">
+
+        <div class="r" style="position: relative;">
+          <div class="monica-badge">Organizadora</div>
+          <div class="monica-frame">
+            <div class="monica-placeholder">[ Foto Monica Silva ]</div>
+          </div>
+          <div class="monica-corner"></div>
+        </div>
+
+        <div class="r d2">
+          <span class="tag">Grande Atração</span>
+          <h2 class="monica-name display">Monica Silva</h2>
+          <p class="monica-role">Organizadora do Simpósio &nbsp;·&nbsp; Palestrante Principal</p>
+          <p class="monica-bio">
+            Monica Silva é intelectual, estrategista política e uma das vozes mais influentes na construção do ecossistema digital progressista no Brasil. Idealizadora e organizadora da <em>Chamada Para a Revolução Molecular</em>, ela une teoria e prática em uma trajetória de luta comprometida com a democracia e a soberania nacional.
+          </p>
+          <div class="pill-row">
+            <span class="pill accent">Atração Principal</span>
+            <span class="pill">Estratégia Política</span>
+            <span class="pill">Militância Digital</span>
+            <span class="pill">Soberania</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMAÇÃO -->
+  <section class="section" style="background: var(--black);">
+    <div class="section-inner" id="programacao">
+
+      <div class="prog-head r">
+        <div>
+          <span class="tag">Programação</span>
+          <h2 class="section-h display">8 Mesas.<br>2 Dias.</h2>
+        </div>
+        <div class="filter-row">
+          <button class="filter-btn on" onclick="filter('all',this)">Todos</button>
+          <button class="filter-btn" onclick="filter('dia1',this)">Dia 1</button>
+          <button class="filter-btn" onclick="filter('dia2',this)">Dia 2</button>
+        </div>
+      </div>
+
+      <div class="mesas" id="mesas">
+
+        <!-- M1 -->
+        <div class="mesa r" data-dia="dia1">
+          <div class="mesa-img">
+            <span>[ Foto Palestrante ]</span>
+            <div class="dia-badge">Dia 1</div>
+          </div>
+          <div class="mesa-body">
+            <div class="mesa-time">14 Jun · 09h00</div>
+            <div class="mesa-speaker">Prof. Rafael Menezes</div>
+            <h3 class="mesa-title display">Soberania Digital: O Brasil na Batalha pela Internet</h3>
+            <p class="mesa-desc">Como garantir que o Brasil controle sua própria infraestrutura digital diante das pressões do capital internacional.</p>
+            <a class="saiba-mais" onclick="openModal(0)">Saiba Mais →</a>
+          </div>
+        </div>
+
+        <!-- M2 -->
+        <div class="mesa r d1" data-dia="dia1">
+          <div class="mesa-img">
+            <span>[ Foto Palestrante ]</span>
+            <div class="dia-badge">Dia 1</div>
+          </div>
+          <div class="mesa-body">
+            <div class="mesa-time">14 Jun · 11h00</div>
+            <div class="mesa-speaker">Dra. Carla Ferreira</div>
+            <h3 class="mesa-title display">Democracia Sob Ataque: Estratégias de Defesa</h3>
+            <p class="mesa-desc">A judicialização da política, o papel das redes sociais e as ferramentas para defender o Estado de Direito.</p>
+            <a class="saiba-mais" onclick="openModal(1)">Saiba Mais →</a>
+          </div>
+        </div>
+
+        <!-- M3 -->
+        <div class="mesa r d2" data-dia="dia1">
+          <div class="mesa-img">
+            <span>[ Foto Palestrante ]</span>
+            <div class="dia-badge">Dia 1</div>
+          </div>
+          <div class="mesa-body">
+            <div class="mesa-time">14 Jun · 14h00</div>
+            <div class="mesa-speaker">Lucas Braga</div>
+            <h3 class="mesa-title display">Táticas de Luta Política no Campo Digital</h3>
+            <p class="mesa-desc">Estratégias práticas e metodologias comprovadas para amplificar narrativas progressistas no ambiente online.</p>
+            <a class="saiba-mais" onclick="openModal(2)">Saiba Mais →</a>
+          </div>
+        </div>
+
+        <!-- M4 -->
+        <div class="mesa r d3" data-dia="dia1">
+          <div class="mesa-img">
+            <span>[ Foto Palestrante ]</span>
+            <div class="dia-badge">Dia 1</div>
+          </div>
+          <div class="mesa-body">
+            <div class="mesa-time">14 Jun · 16h30</div>
+            <div class="mesa-speaker">Ana Paula Torres</div>
+            <h3 class="mesa-title display">Construindo o Ecossistema Digital da Esquerda</h3>
+            <p class="mesa-desc">Como fomentar, financiar e sustentar veículos, plataformas e iniciativas digitais progressistas no Brasil.</p>
+            <a class="saiba-mais" onclick="openModal(3)">Saiba Mais →</a>
+          </div>
+        </div>
+
+        <!-- M5 -->
+        <div class="mesa r" data-dia="dia2">
+          <div class="mesa-img">
+            <span>[ Foto Palestrante ]</span>
+            <div class="dia-badge">Dia 2</div>
+          </div>
+          <div class="mesa-body">
+            <div class="mesa-time">15 Jun · 09h00</div>
+            <div class="mesa-speaker">Dr. Márcio Veloso</div>
+            <h3 class="mesa-title display">Desinformação e Contra-Narrativas</h3>
+            <p class="mesa-desc">Anatomia das fake news, como identificar e combater a desinformação e construir respostas efetivas.</p>
+            <a class="saiba-mais" onclick="openModal(4)">Saiba Mais →</a>
+          </div>
+        </div>
+
+        <!-- M6 -->
+        <div class="mesa r d1" data-dia="dia2">
+          <div class="mesa-img">
+            <span>[ Foto Palestrante ]</span>
+            <div class="dia-badge">Dia 2</div>
+          </div>
+          <div class="mesa-body">
+            <div class="mesa-time">15 Jun · 11h00</div>
+            <div class="mesa-speaker">Fernanda Leal</div>
+            <h3 class="mesa-title display">Militância 2.0: Organização e Mobilização Online</h3>
+            <p class="mesa-desc">Da organização de base às campanhas virais: como estruturar redes de militância no ambiente digital.</p>
+            <a class="saiba-mais" onclick="openModal(5)">Saiba Mais →</a>
+          </div>
+        </div>
+
+        <!-- M7 -->
+        <div class="mesa r d2" data-dia="dia2">
+          <div class="mesa-img">
+            <span>[ Foto Palestrante ]</span>
+            <div class="dia-badge">Dia 2</div>
+          </div>
+          <div class="mesa-body">
+            <div class="mesa-time">15 Jun · 14h00</div>
+            <div class="mesa-speaker">Dr. Henrique Amaral</div>
+            <h3 class="mesa-title display">Algoritmos e Poder: Quem Controla o Fluxo?</h3>
+            <p class="mesa-desc">Como os algoritmos das grandes plataformas moldam o debate político e o que fazer para retomar o controle.</p>
+            <a class="saiba-mais" onclick="openModal(6)">Saiba Mais →</a>
+          </div>
+        </div>
+
+        <!-- M8 — Monica -->
+        <div class="mesa r d3" data-dia="dia2" style="border-color: rgba(204,0,0,0.25);">
+          <div class="mesa-img" style="background: linear-gradient(135deg, #160000 0%, #200000 100%);">
+            <span>[ Foto Monica Silva ]</span>
+            <div class="dia-badge" style="background: #8B0000;">Encerramento</div>
+          </div>
+          <div class="mesa-body">
+            <div class="mesa-time" style="color: var(--red);">15 Jun · 17h00 · Encerramento</div>
+            <div class="mesa-speaker" style="color: var(--red);">Monica Silva</div>
+            <h3 class="mesa-title display">O Futuro da Soberania Nacional no Campo Digital</h3>
+            <p class="mesa-desc">Conferência de encerramento com a organizadora e grande atração do simpósio. Uma síntese e chamada à ação.</p>
+            <a class="saiba-mais" onclick="openModal(7)">Saiba Mais →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INGRESSOS -->
+  <section class="section" id="ingressos">
+    <div class="section-inner">
+
+      <div class="ingressos-head r">
+        <span class="tag">Ingressos</span>
+        <h2 class="section-h display">Garanta Sua Vaga.<br>Participe da Luta.</h2>
+        <p class="ingressos-lead">
+          Comprar seu ingresso é um ato político. Você está viabilizando este evento como um serviço de utilidade pública e participando ativamente da construção de um Brasil soberano e democrático.
+        </p>
+      </div>
+
+      <div class="ingresso-grid">
+
+        <div class="ingresso r">
+          <div class="i-tipo display">Acesso</div>
+          <div class="i-price display"><sup>R$</sup>50</div>
+          <div class="i-desc">Entrada para os dois dias do simpósio</div>
+          <ul class="i-list">
+            <li>Acesso completo aos 2 dias</li>
+            <li>8 mesas temáticas</li>
+            <li>Certificado de participação</li>
+            <li>Gravações das mesas</li>
+          </ul>
+          <button class="i-btn out">Quero Este</button>
+        </div>
+
+        <div class="ingresso star r d1">
+          <div class="i-tipo display">Acesso + Bolsa</div>
+          <div class="i-price display"><sup>R$</sup>70</div>
+          <div class="i-desc">Entrada para os dois dias + bolsa exclusiva do evento</div>
+          <ul class="i-list">
+            <li>Acesso completo aos 2 dias</li>
+            <li>8 mesas temáticas</li>
+            <li>Certificado de participação</li>
+            <li>Gravações das mesas</li>
+            <li>Bolsa exclusiva do evento</li>
+          </ul>
+          <button class="i-btn">Garantir Agora</button>
+        </div>
+
+        <div class="ingresso r d2">
+          <div class="i-tipo display">Press Kit</div>
+          <div class="i-price display"><sup>R$</sup>200</div>
+          <div class="i-desc">Experiência completa com kit físico exclusivo</div>
+          <ul class="i-list">
+            <li>Acesso completo aos 2 dias</li>
+            <li>8 mesas temáticas</li>
+            <li>Certificado de participação</li>
+            <li>Gravações das mesas</li>
+            <li>Bolsa exclusiva do evento</li>
+            <li>Publicação impressa</li>
+            <li>Caneca + crachá oficial</li>
+          </ul>
+          <button class="i-btn out">Quero Este</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICADO -->
+  <section id="cert">
+    <div class="cert-glow"></div>
+    <div class="cert-inner r">
+      <span class="cert-mark">◈ CERTIFICADO</span>
+      <h2 class="cert-h display">Participação Reconhecida</h2>
+      <p class="cert-p">
+        Todos os participantes recebem certificado de participação ao final do evento — um reconhecimento formal do seu engajamento com as causas da soberania nacional e da democracia.
+      </p>
+      <a href="#ingressos" class="btn-red">Garantir Meu Ingresso</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Revolução Molecular</div>
+    <div class="footer-copy">© 2025 &nbsp;·&nbsp; Chamada Para a Revolução Molecular &nbsp;·&nbsp; Todos os direitos reservados</div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modal" onclick="closeModal(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div class="modal-tag" id="m-tag"></div>
+      <h3 class="modal-title display" id="m-title"></h3>
+      <div class="modal-speaker" id="m-speaker"></div>
+      <p class="modal-desc" id="m-desc"></p>
+    </div>
+  </div>
+
+  <script>
+    /* ── Cursor ── */
+    const cur = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    document.addEventListener('mousemove', e => {
+      cur.style.left  = e.clientX + 'px';
+      cur.style.top   = e.clientY + 'px';
+      ring.style.left = e.clientX + 'px';
+      ring.style.top  = e.clientY + 'px';
+    });
+
+    /* ── Nav scroll ── */
+    const nav = document.getElementById('nav');
+    addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', scrollY > 60);
+    });
+
+    /* ── Reveal ── */
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+    /* ── Mesa filter ── */
+    function filter(dia, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      document.querySelectorAll('.mesa').forEach(m => {
+        m.style.display = (dia === 'all' || m.dataset.dia === dia) ? '' : 'none';
+      });
+    }
+
+    /* ── Modal data ── */
+    const mesas = [
+      {
+        tag: 'Dia 1 · 09h00 — Prof. Rafael Menezes',
+        title: 'Soberania Digital: O Brasil na Batalha pela Internet',
+        speaker: 'Doutor em Ciência Política · Pesquisador de Infraestrutura Digital',
+        desc: 'Nesta mesa, Rafael Menezes apresenta um panorama detalhado das disputas pela governança da internet e propõe estratégias concretas para que o Brasil assuma protagonismo na definição de políticas digitais soberanas. A discussão parte da análise de casos internacionais e chega a propostas aplicáveis à realidade brasileira.'
+      },
+      {
+        tag: 'Dia 1 · 11h00 — Dra. Carla Ferreira',
+        title: 'Democracia Sob Ataque: Estratégias de Defesa',
+        speaker: 'Jurista · Pesquisadora em Direito Digital e Democracia',
+        desc: 'Uma análise crítica dos mecanismos de desgaste institucional e as ferramentas jurídicas, políticas e comunicacionais disponíveis para defender o Estado de Direito. Carla Ferreira traz dados, casos reais e um roteiro de ação para militantes, organizações e movimentos sociais.'
+      },
+      {
+        tag: 'Dia 1 · 14h00 — Lucas Braga',
+        title: 'Táticas de Luta Política no Campo Digital',
+        speaker: 'Estrategista de Comunicação Digital · Ativista',
+        desc: 'Quais são as metodologias que realmente funcionam para amplificar narrativas progressistas no ambiente online? Lucas Braga apresenta um framework prático, baseado em experiências reais de campanhas, para a construção de presença e influência digital.'
+      },
+      {
+        tag: 'Dia 1 · 16h30 — Ana Paula Torres',
+        title: 'Construindo o Ecossistema Digital da Esquerda',
+        speaker: 'Empreendedora Social · Fundadora de veículo digital progressista',
+        desc: 'Como criar, financiar e sustentar iniciativas digitais comprometidas com valores progressistas? Ana Paula Torres compartilha sua trajetória e os aprendizados de quem construiu um veículo de comunicação de base, discutindo modelos de negócio, fontes de financiamento e estratégias de crescimento.'
+      },
+      {
+        tag: 'Dia 2 · 09h00 — Dr. Márcio Veloso',
+        title: 'Desinformação e Contra-Narrativas',
+        speaker: 'Pesquisador em Comunicação · Especialista em Fact-Checking',
+        desc: 'Uma anatomia completa do fenômeno da desinformação: como as fake news são produzidas, distribuídas e amplificadas — e como construir respostas efetivas. A mesa apresenta ferramentas de verificação e estratégias para a construção de contra-narrativas com impacto real.'
+      },
+      {
+        tag: 'Dia 2 · 11h00 — Fernanda Leal',
+        title: 'Militância 2.0: Organização e Mobilização Online',
+        speaker: 'Organizadora Comunitária · Especialista em Mobilização Digital',
+        desc: 'Como estruturar redes de militância no ambiente digital, da organização de base às campanhas com potencial viral? Fernanda Leal apresenta modelos de organização horizontal, ferramentas de comunicação interna e estratégias para converter engajamento online em ação política concreta.'
+      },
+      {
+        tag: 'Dia 2 · 14h00 — Dr. Henrique Amaral',
+        title: 'Algoritmos e Poder: Quem Controla o Fluxo?',
+        speaker: 'Pesquisador em Tecnologia e Sociedade · Professor Universitário',
+        desc: 'Os algoritmos das grandes plataformas não são neutros — eles moldam o que vemos, o que pensamos e o que queremos. Henrique Amaral desvela os mecanismos de controle algorítmico e propõe estratégias para que movimentos progressistas retomem a capacidade de comunicar e mobilizar.'
+      },
+      {
+        tag: 'Dia 2 · 17h00 — Encerramento — Monica Silva',
+        title: 'O Futuro da Soberania Nacional no Campo Digital',
+        speaker: 'Organizadora do Simpósio · Intelectual e Estrategista Política',
+        desc: 'No encerramento do simpósio, Monica Silva sintetiza os aprendizados dos dois dias e apresenta uma chamada à ação: o que cada participante pode fazer, a partir de agora, para avançar na construção de um Brasil soberano, democrático e digital. Um manifesto coletivo em forma de palestra.'
+      }
+    ];
+
+    function openModal(i) {
+      const m = mesas[i];
+      document.getElementById('m-tag').textContent = m.tag;
+      document.getElementById('m-title').textContent = m.title;
+      document.getElementById('m-speaker').textContent = m.speaker;
+      document.getElementById('m-desc').textContent = m.desc;
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if (!e || e.target === document.getElementById('modal') || e.target.classList.contains('modal-close')) {
+        document.getElementById('modal').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal({}); });
+
+    /* ── Marquee duplicate ── */
+    const mq = document.getElementById('mq');
+    mq.innerHTML += mq.innerHTML;
+  </script>
+</body>
+</html>
