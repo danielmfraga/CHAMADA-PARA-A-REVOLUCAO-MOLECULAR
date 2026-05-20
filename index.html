@@ -497,7 +497,8 @@
       gap: 20px; max-width: 1020px; margin: 0 auto;
     }
     .ingresso {
-      border: 1px solid rgba(255,255,255,0.09);
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.13);
       padding: 44px 34px; position: relative;
       transition: border-color 0.3s, transform 0.3s;
     }
@@ -691,10 +692,13 @@
     .mesa,
     .pilar,
     .date-block,
-    .monica-frame,
-    .ingresso {
+    .monica-frame {
       position: relative;
       overflow: hidden;
+    }
+    .ingresso {
+      position: relative;
+      overflow: visible;
     }
 
     /* ::before — tinta impressa sobre superfície escura */
