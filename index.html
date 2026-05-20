@@ -244,7 +244,7 @@
 
     /* Scroll cue */
     .scroll-cue {
-      position: absolute; bottom: 40px; left: 50%;
+      position: absolute; bottom: 16px; left: 50%;
       transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 10px;
       opacity: 0; animation: up 1s ease forwards 1.4s;
@@ -704,6 +704,28 @@
     .date-label, .date-num, .date-month {
       position: relative; z-index: 2;
     }
+
+    /* ─── BORDER RADIUS — cantos arredondados ─── */
+    .nav-cta,
+    .btn-red,
+    .btn-ghost,
+    .i-btn,
+    .filter-btn          { border-radius: 4px; }
+
+    .hero-eyebrow,
+    .date-block,
+    .dia-badge,
+    .monica-badge,
+    .pill,
+    .ingresso.star::before { border-radius: 4px; }
+
+    .mesa,
+    .ingresso,
+    .pilar,
+    .modal-box           { border-radius: 6px; }
+
+    .monica-frame        { border-radius: 6px; }
+    .monica-corner       { border-radius: 0 0 6px 0; }
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
