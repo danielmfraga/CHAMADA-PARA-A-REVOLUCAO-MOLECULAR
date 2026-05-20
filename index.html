@@ -372,9 +372,9 @@
 
     /* Quadradinho animado — canto inferior direito */
     .monica-corner {
-      position: absolute; bottom: -16px; right: -16px;
+      position: absolute !important; bottom: -16px; right: -16px;
       width: 88px; height: 88px;
-      border: none; pointer-events: none;
+      border: none; pointer-events: none; z-index: 10;
     }
     .monica-corner::before,
     .monica-corner::after {
