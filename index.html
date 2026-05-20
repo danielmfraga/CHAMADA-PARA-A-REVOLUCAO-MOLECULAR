@@ -898,6 +898,10 @@
       gap: 80px; align-items: center;
     }
     .faq-sticky { position: static; }
+    .faq-label {
+      font-size: clamp(3rem, 4.5vw, 5.5rem);
+      line-height: 0.9;
+    }
     .faq-sub {
       font-size: 0.95rem; line-height: 1.8;
       color: #4A4540; margin-top: 20px; max-width: 280px;
@@ -1338,7 +1342,10 @@
       <div class="faq-grid">
 
         <div class="faq-sticky r">
-          <span class="tag">Perguntas Frequentes</span>
+          <h2 class="faq-label display">
+            <span style="color:#1A1612;">Perguntas</span><br>
+            <span style="color:var(--red);">Frequentes</span>
+          </h2>
         </div>
 
         <div class="faq-list">
