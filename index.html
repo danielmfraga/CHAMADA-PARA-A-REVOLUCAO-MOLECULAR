@@ -583,6 +583,51 @@
     .modal-speaker { font-size: 0.82rem; color: var(--gray); margin-bottom: 24px; }
     .modal-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.85; }
 
+    /* ─── INK TEXTURE ON BLOCKS ─── */
+    /* Noise SVG inline — medium grain, desaturated, printed-ink feel */
+    .mesa,
+    .pilar,
+    .date-block,
+    .monica-frame,
+    .ingresso {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ::before — tinta impressa sobre superfície escura */
+    .mesa::before,
+    .pilar::before,
+    .date-block::before,
+    .monica-frame::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='ink'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.42' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23ink)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: 0.13;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+
+    /* ingresso usa ::after para não colidir com badge ::before do .star */
+    .ingresso::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='ink'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.42' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23ink)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: 0.13;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+
+    /* garante que conteúdo interno fique acima da textura */
+    .mesa-img, .mesa-body,
+    .pilar-name, .pilar-desc,
+    .i-tipo, .i-price, .i-desc, .i-list, .i-btn,
+    .monica-badge, .monica-corner,
+    .date-label, .date-num, .date-month {
+      position: relative; z-index: 2;
+    }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       nav { padding: 20px 24px; }
